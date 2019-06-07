@@ -28,6 +28,8 @@ gitsync: fc
 	git add $(SRC) makefile ft_ls.h
 	@echo "\033[0;37m"
 	@git commit -m "updating repo"
+	@echo "\033[0;34m"
 	git push origin master
+	@echo "\033[0;37m"
 
 .PHONY: ft_ls all clean fclean re gitsync
