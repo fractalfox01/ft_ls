@@ -22,9 +22,11 @@ fclean:
 re: fclean all
 	@clear
 
-gitsync:
+gitsync: fc
 	@git status
+	@echo "\033[0;32m"
 	git add $(SRC) makefile ft_ls.h
+	@echo "\033[0;37m"
 	@git commit -m "updating repo"
 	git push origin master
 
