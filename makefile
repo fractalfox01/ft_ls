@@ -1,0 +1,31 @@
+NAME= ft_ls
+
+LIBFT= -Llibft -lft
+
+SRC= main.c
+
+$(NAME):
+	@make -C libft all
+	$(CC) $(SRC) $(LIBFT) -o $(NAME)
+
+all: $(NAME)
+
+clean:
+	@make -C libft clean
+
+fc: fclean
+
+fclean:
+	@make -C libft fclean
+	@rm -f ft_ls
+
+re: fclean all
+	@clear
+
+gitsync:
+	@git status
+	git add $(SRC) makefile ft_ls.h
+	@git commit -m "updating repo"
+	git push origin master
+
+.PHONY: ft_ls all clean fclean re gitsync
