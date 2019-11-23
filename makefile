@@ -1,6 +1,6 @@
 NAME= ft_ls
 
-SRC := $(addsuffix .c, src/main src/sort_utils src/time_sort)
+SRC := $(addsuffix .c, src/main src/sort_utils src/time_sort_forward src/time_sort_reverse)
 
 INC := $(addsuffix .h, includes/ft_ls includes/ft_printf includes/get_next_line includes/libft)
 

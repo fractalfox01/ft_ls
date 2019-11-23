@@ -6,11 +6,24 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 18:28:15 by tvandivi          #+#    #+#             */
-/*   Updated: 2019/11/22 18:29:09 by tvandivi         ###   ########.fr       */
+/*   Updated: 2019/11/22 19:06:56 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
+
+t_lst	*get_node(t_lst *root, char *name)
+{
+	if (!root)
+		return (NULL);
+	while (root)
+	{
+		if (ft_strcmp(root->name, name) == 0)
+			return (root);
+		root = root->next;
+	}
+	return (root);
+}
 
 void    ms_init(t_ms *ms, int i, int j)
 {

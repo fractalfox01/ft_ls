@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 20:28:33 by tvandivi          #+#    #+#             */
-/*   Updated: 2019/11/22 18:30:07 by tvandivi         ###   ########.fr       */
+/*   Updated: 2019/11/22 19:08:22 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,20 @@ typedef struct  s_ms
 	time_t		*t4;
 }               t_ms;
 
+void	sort_by_character(t_ms *ms, char **tab);
+void    s_merge_forward(t_ls *ls, int l, int m, int r);
 void	time_sort_forward(t_ms *ms, char **tab);
 void	sort_by_time_forward(t_ls *ls, t_ms *ms, char **tab);
 void    s_merge_time_forward(t_ls *ls, int l, int m, int r);
+void    s_merge_reverse(t_ls *ls, int l, int m, int r);
 void	time_sort_reverse(t_ms *ms, char **tab);
 void	sort_by_time_reverse(t_ls *ls, t_ms *ms, char **tab);
 void    s_merge_time_reverse(t_ls *ls, int l, int m, int r);
+
+void    ms_init(t_ms *ms, int i, int j);
+void	copy_tab(t_ms *ms, int l, int m, char **tab);
+void	readin_table(t_ms *ms, char **tab, int l, int m);
+void	read_remaing(t_ms *ms, char **tab);
+t_lst	*get_node(t_lst *root, char *name);
 
 #endif
