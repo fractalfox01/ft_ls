@@ -6,24 +6,11 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 20:27:49 by tvandivi          #+#    #+#             */
-/*   Updated: 2019/11/22 19:06:52 by tvandivi         ###   ########.fr       */
+/*   Updated: 2019/11/23 21:09:27 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
-
-t_lst	*set_lptr(char *rename)
-{
-	t_lst	*tmp;
-
-	tmp = (t_lst *)malloc(sizeof(t_lst) * 1);
-	tmp->name = ft_strdup(rename);
-	lstat(tmp->name, &tmp->st);
-	tmp->pw = getpwuid(tmp->st.st_uid);
-	tmp->gr = getgrgid(tmp->st.st_gid);
-	tmp->next = NULL;
-	return (tmp);
-}
 
 t_lst *new_lptr(struct dirent **ident)
 {
@@ -41,6 +28,32 @@ t_lst *new_lptr(struct dirent **ident)
 	lst->pad_size = 0;
 	lst->next = NULL;
 	return (lst);
+}
+
+t_lst	*has_options(t_ls *ls, char *name)
+{
+	int		i;
+	t_lst	*lptr;
+	t_lst	*head;
+	
+	i = 0;
+	ls->ddir = opendir(name);
+	if (ls->ddir)
+	{
+		ls->dent = readdir(ls->ddir);
+		lptr = new_lptr(&ls->dent);
+		head = lptr;
+		while (lptr)
+		{
+			ls->dent = readdir(ls->ddir);
+			lptr->next = new_lptr(&ls->dent);
+			lptr = lptr->next;
+			i++;
+		}
+		ls->total = i;
+		return (head);
+	}
+	return (NULL);
 }
 
 t_lst	*no_options(t_ls *ls)
@@ -132,25 +145,72 @@ void	chose_algo(t_ls *ls)
 		sort_merge(ls, 0, (ls->total - 1), s_merge_forward);
 }
 
-void	print_results(t_ls *ls)
+void	print_recursive(t_ls *ls)
 {
-	char	*tmp;
-	t_lst	*lst;
 	int		i;
+	int		j;
+	t_lst	*lst;
+	t_ls	ls1;
 
+	j = -1;
 	i = 0;
 	while (i < ls->total)
 	{
 		lst = get_node(ls->lst, ls->sort_table[i]);
-		if (lst->st.st_mode == 0)
-			lstat(ls->sort_table[i], &lst->st);
-		tmp = ft_strnew(16);
-		tmp = ft_strncpy(tmp, ctime(&lst->st.st_mtimespec.tv_sec), 16);
-		printf("%-12s %ld %-20s\n", ls->sort_table[i], lst->st.st_mtimespec.tv_sec, (tmp + 3));
+		if (lst->st.st_mode > 0)
+		{
+			if (lst->st.st_mode >= S_IFDIR && lst->st.st_mode < S_IFBLK)
+			{
+				printf("\n./%s\n", ls->sort_table[i]);
+				init_ls(&ls1);
+				while (++j < 5)
+					ls1.flags[j] = ls->flags[j];
+				ls1.lst = has_options(&ls1, lst->name);
+				sort_list(&ls1);
+			}
+			j = -1;
+			i++;
+		}
+		// else
+		// 	break ;
+	}
+}
+
+void	print_results(t_ls *ls)
+{
+	char	*tmp;
+	t_lst	*lst;
+	size_t		pad;
+	char	*s1;
+	// char	*s2;
+	int		i;
+
+	i = 1;
+	s1 = ft_strdup("%");
+	lst = get_node(ls->lst, ls->sort_table[0]);
+	pad = ft_strlen(lst->name);
+	while (i < ls->total)
+	{
+		lst = get_node(ls->lst, ls->sort_table[i++]);
+		if (pad < ft_strlen(lst->name))
+			pad = ft_strlen(lst->name);
+		ls->t_links += (uint64_t)lst->st.st_size;
+	}
+	printf("total %llu\n", (ls->t_links / 512));
+	i = 0;
+	while (i < ls->total)
+	{
+		lst = get_node(ls->lst, ls->sort_table[i]);
+		// if (lst->st.st_mode < S_IFIFO)
+		// 	lstat(ls->sort_table[i], &lst->st);
+		// tmp = ft_strnew(16);
+		// tmp = ft_strncpy(tmp, ctime(&lst->st.st_mtimespec.tv_sec), 16);
+		printf("%-12s\n", ls->sort_table[i]);
 		ft_strdel(&tmp);
 		i++;
 	}
-	printf("\n");
+	if (ls->flags[3] == 'R')
+		print_recursive(ls);
 }
 
 void	sort_list(t_ls *ls)
@@ -164,9 +224,10 @@ void	init_ls(t_ls *ls)
 {
 	ls->total = 0;
 	ft_memset(ls->flags, 0, 5);
-	ls->scan_list = NULL;
+	ls->t_links = 0;
 	ls->dent = NULL;
 	ls->pad_size = 0;
+	ls->st.st_mode = 0;
 	ls->pw = NULL;
 	ls->gr = NULL;
 	ls->lst = NULL;
@@ -199,17 +260,6 @@ void	check_flags(t_ls *ls, char **av)
 				i++;
 			}
 		}
-	}
-}
-
-void	print_list(t_ls *ls, t_lst *lst)
-{
-
-	printf("total: %d\n", ls->total);
-	while (lst)
-	{
-		printf("%-10s %o\n", lst->name, lst->st.st_mode);
-		lst = lst->next;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 19:01:32 by tvandivi          #+#    #+#             */
-/*   Updated: 2019/11/22 19:03:33 by tvandivi         ###   ########.fr       */
+/*   Updated: 2019/11/22 23:37:49 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	sort_by_time_forward(t_ls *ls, t_ms *ms, char **tab)
 {
 	ms->l1 = get_node(ls->lst, ms->left[ms->i]);
 	ms->l2 = get_node(ls->lst, ms->right[ms->j]);
-	ms->t1 = &ms->l1->st.st_mtimespec.tv_sec;
-	ms->t2 = &ms->l2->st.st_mtimespec.tv_sec;
-	ms->t3 = &ms->l1->st.st_mtimespec.tv_nsec;
-	ms->t4 = &ms->l2->st.st_mtimespec.tv_nsec;
+	ms->t1 = &ms->l1->st.st_atimespec.tv_sec;
+	ms->t2 = &ms->l2->st.st_atimespec.tv_sec;
+	ms->t3 = &ms->l1->st.st_atimespec.tv_nsec;
+	ms->t4 = &ms->l2->st.st_atimespec.tv_nsec;
 	if (*ms->t1 >= *ms->t2)
 		time_sort_forward(ms, tab);
 	else

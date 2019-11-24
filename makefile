@@ -17,6 +17,8 @@ clean:
 
 fclean: clean
 
+fc: fclean
+
 re: fclean all
 
 add:

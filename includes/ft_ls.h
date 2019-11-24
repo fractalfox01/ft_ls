@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 20:28:33 by tvandivi          #+#    #+#             */
-/*   Updated: 2019/11/22 19:08:22 by tvandivi         ###   ########.fr       */
+/*   Updated: 2019/11/23 10:33:24 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ typedef	struct		s_ls_d
 typedef struct	s_lslist
 {
 	int				total;
-	char			**scan_list;
-	char			flags[5]; // -a -r -t -R -l
+	uint64_t		t_links;
+	char			flags[5];
 	char			**sort_table;
 	DIR				*ddir;
 	struct dirent	*dent;
@@ -72,6 +72,9 @@ typedef struct  s_ms
 	time_t		*t3;
 	time_t		*t4;
 }               t_ms;
+
+void	sort_list(t_ls *ls);
+void	init_ls(t_ls *ls);
 
 void	sort_by_character(t_ms *ms, char **tab);
 void    s_merge_forward(t_ls *ls, int l, int m, int r);
