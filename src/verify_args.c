@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/03 10:18:55 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/01/03 13:50:25 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/01/06 18:22:37 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 **
 */
 
-void    verify_arguments(t_ls *ls, char **av, int ac)
+void    verify_arguments(char **av, int ac)
 {
+    struct stat st;
     int i;
 
     i = (ac - 1);
@@ -28,12 +29,12 @@ void    verify_arguments(t_ls *ls, char **av, int ac)
     {
         if (av[i][0] != OPTION)
         {
-            stat(av[i], &ls->st);
-            if (ls->st.st_mode <= 0)
+            lstat(av[i], &st);
+            if (st.st_mode <= 0)
             {
                 ft_printf("ft_ls: %s: No such file or directory\n", av[i]);
             }
-            ls->st.st_mode = 0;
+            st.st_mode = 0;
         }
         i--;
     }

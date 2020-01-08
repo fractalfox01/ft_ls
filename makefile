@@ -1,7 +1,7 @@
 NAME= ft_ls
 
 SRC := $(addsuffix .c, src/main src/verify_options src/set_options src/init_utils \
-	src/option_utils src/verify_args src/set_arguments)
+	src/option_utils src/verify_args src/set_arguments src/ls_utils)
 
 INC := $(addsuffix .h, includes/ft_ls includes/ft_printf includes/get_next_line \
 	includes/libft)

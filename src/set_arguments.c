@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/03 10:20:22 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/01/04 14:41:57 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/01/08 13:44:04 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,57 @@
 ** 
 */
 
-void    add_file(t_ls *ls, char *file)
+static int		stack_exist(t_stack *stack)
 {
-    t_list  *tmp;
+	if (stack)
+		return (1);
+	return (0);
+}
 
-    tmp = ft_lstnew(file, sizeof(char *));
-    ft_lstadd(&ls->lookup, tmp);
+static t_stack		*stack_add(t_stack *stack, char *d_name)
+{
+	t_stack	*tmp;
+
+	if (stack_exist(stack))
+	{
+		tmp = (t_stack *)malloc(sizeof(t_stack) * 1);
+		tmp->next = stack;
+		ft_memcpy(tmp->dir_name, d_name, ft_strlen(d_name));
+		tmp->dir_name[ft_strlen(d_name)] = '\0';
+		return (tmp);
+	}
+	else
+	{
+		stack = (t_stack *)malloc(sizeof(t_stack) * 1);
+		ft_memcpy(stack, d_name, ft_strlen(d_name));
+		stack->dir_name[ft_strlen(d_name)] = '\0';
+	}
+	return (stack);
 }
 
 void    set_arguments(t_ls *ls, t_opt *opt, char **av, int ac)
 {
-    int i;
+    int             i;
+    DIR             *dr;
+    struct dirent   *dent;
+    struct stat     st;
 
     i = 1;
     if (ac <= 2 && ((opt->set) || ac == 1))
     {
-        ls->dr = opendir(".");
-        while ((ls->dent = readdir(ls->dr)))
+        dr = opendir(".");
+        while ((dent = readdir(dr)))
         {
-            ft_printf("%s\n", ls->dent->d_name);
-            ls->dent = NULL;
+            if ((lstat(dent->d_name, &st)) == 0)
+            {
+                ft_printf("%s\n", dent->d_name);
+                if (st.st_mode >= S_IFDIR && st.st_mode < S_IFBLK)
+                    ls->stack = stack_add(ls->stack, dent->d_name);
+            }
+            dent = NULL;
         }
+        ft_printf("%s", "\n");
+        closedir(dr);
     }
     else
     {
@@ -51,12 +81,20 @@ void    set_arguments(t_ls *ls, t_opt *opt, char **av, int ac)
         {
             if (av[i][0] != OPTION)
             {
-                stat(av[i], &ls->st);
-                if (ls->st.st_mode > 0)
+                if ((lstat(av[i], &st)) == 0)
                 {
-                    add_file(ls, av[i]);
+                    if (st.st_mode >= S_IFDIR && st.st_mode < S_IFBLK)
+                    {
+                        ls->stack = stack_add(ls->stack, av[i]);
+                        ls->ls_args += 1;
+                    }
                 }
-                ls->st.st_mode = 0;
+                dent = NULL;
+                // if (ls->st.st_mode >= S_IFDIR && ls->st.st_mode < S_IFBLK)
+                //     {
+                //         add_directory(ls, av[i]);
+                //     }
+                st.st_mode = 0;
             }
             i++;
         }
