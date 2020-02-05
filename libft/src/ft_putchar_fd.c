@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tvandivi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/20 17:47:10 by tvandivi          #+#    #+#             */
-/*   Updated: 2019/02/20 17:53:17 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/04 17:10:07 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putchar_fd(char c, int fd)
 {
-	if (c <= 127)
+	if (c)
 	{
 		write(fd, &c, 1);
 	}

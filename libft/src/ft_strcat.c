@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tvandivi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/11 12:12:22 by tvandivi          #+#    #+#             */
-/*   Updated: 2019/02/22 15:42:14 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/04 17:11:19 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,7 @@
 char	*ft_strcat(char *dest, char *src)
 {
 	char	*ptr;
-	int		i;
-	int		f;
-	int		dlen;
-	int		s;
 
-	i = (int)sizeof(dest);
-	dlen = ft_strlen(dest);
-	s = (int)sizeof(src);
-	f = 0;
 	ptr = dest;
 	if (!(*src))
 		return (ptr);

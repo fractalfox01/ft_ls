@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tvandivi <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/28 13:49:13 by tvandivi          #+#    #+#             */
-/*   Updated: 2019/03/01 18:32:14 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/04 17:08:19 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 
 void	*ft_realloc(void *tab, size_t size)
 {
-	size_t	i;
 	void	*ptr;
 
-	i = 0;
 	ptr = ft_memalloc(size);
 	if (!tab || ptr)
 		return (NULL);
