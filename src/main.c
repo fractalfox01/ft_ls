@@ -6,165 +6,122 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/31 10:37:04 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/01/08 13:44:25 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/04 16:51:04 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
 
-/*
-** initialize global structures
-** struct ls:
-** 		contains system library defined structure used for obtaining info on files and directories
-** struct opt:
-**		contains flags used to identify flags passed to program.
-**
-** Verify and set options else print error and exit.
-**
-** Verify arguments, print argument errors.
-** Store argument batch 	  <---------<-------------<---------/
-** Sort arguments						(r, t, a flags).	   /
-** Get argument info 						   (l flag).	  /
-** Output and read in next available arguments (R flag).     /
-** LOOP: set arguments ->---------->---------->-------->----/ 
-*/
-
-void	sort_lookup()
+void	sort_dir(t_obj *obj)
 {
-	ft_printf("%sing\n", "test");
-}
-
-// char	*prepend_info(char *file, t_opt *opt, t_ls *ls)
-// {
-// 	if (file && opt && ls)
-// 	{
-		
-// 	}
-// 	if (opt->f_all)
-// 	{
-
-// 	}
-// }
-
-// static void	output_lookup(t_ls *ls, t_opt *opt)
-// {
-// 	t_list	*head;
-// 	// char	*text;
-
-// 	head = ls->lookup;
-// 	while (head)
-// 	{
-// 		if (opt->set)
-// 		{
-// 			// text = prepend_info((char *)head->content, opt, ls);
-// 		}
-// 		ft_printf("%s\n", (char *)head->content);
-// 		head = head->next;
-// 	}
-// }
-int		stack_exist(t_stack *stack)
-{
-	if (stack)
-		return (1);
-	return (0);
-}
-
-t_stack		*stack_add(t_stack *stack, char *d_name)
-{
+	int		i;
+	int		j;
 	t_stack	*tmp;
+	t_obj	ls;
 
-	if (stack_exist(stack))
+	i = 0;
+	j = 0;
+	tmp = obj->dirs;
+	while (tmp)
 	{
-		tmp = (t_stack *)malloc(sizeof(t_stack) * 1);
-		tmp->next = stack;
-		ft_memcpy(tmp->dir_name, d_name, ft_strlen(d_name));
-		tmp->dir_name[ft_strlen(d_name)] = '\0';
-		return (tmp);
+		i++;
+		tmp = tmp->next;
 	}
-	else
+	tmp = obj->dirs;
+	ls.table = (char **)malloc(sizeof(char *) * (i + 1));
+	while (j < i)
 	{
-		stack = (t_stack *)malloc(sizeof(t_stack) * 1);
-		ft_memcpy(stack, d_name, ft_strlen(d_name));
-		stack->dir_name[ft_strlen(d_name)] = '\0';
+		ls.table[j++] = ft_strdup(tmp->name);
+		tmp = tmp->next;
 	}
-	return (stack);
+	sort_merge(&ls, 0, (j - 1), s_merge_forward);
 }
 
-t_stack	*ret_dir(char *directory)
+void	ls_precheck(t_obj *obj, char *name, t_opt *opt, int *flag)
 {
-	t_stack			*stack;
-	DIR				*dr;
-	struct dirent	*dent;
-	struct stat		st;
+	t_ls_pad	pad;
 
-	stack = NULL;
-	dr = opendir(directory);
-	if (dr && ft_strcmp(directory, ".") != 0 && ft_strcmp(directory, "..") != 0)
+	get_padding(&pad, obj, name);
+	if (!(obj->dir = opendir(name)))
 	{
-		ft_printf("%s:\n", directory);
-		while ((dent = readdir(dr)))
-		{
-			if (lstat(dent->d_name, &st) == 0)
-			{
-				if (st.st_mode >= S_IFDIR && st.st_mode < S_IFBLK)
-					stack = stack_add(stack, dent->d_name);
-				ft_printf("%s\n", dent->d_name);
-			}
-		}
-		ft_printf("%s", "\n");
-		closedir(dr);
+		if (opt->flag || flag[0])
+			ft_putchar('\n');
+		ft_putstr(name);
+		ft_putstr(":\n");
+		ft_putstr("ft_ls: ");
+		ft_putstr(name);
+		ft_putstr(" permission denied.\n");
+		flag[0]++;
+		return ;
 	}
-	return (stack);
+	if (opt->flag || flag[0])
+		ft_putchar('\n');
+	if ((*flag || opt->start > 1) || opt->done)
+	{
+		ft_putstr(name);
+		ft_putstr(":\n");
+	}
+	flag[0]++;
 }
 
-void	print_ls(t_stack **stack, t_opt *opt, char **av, int ac)
+void	fill_recursive(t_lsdir *ls, t_opt *opt)
 {
-	t_stack	*tmp;
-
-	if (*stack && opt)
+	ls->inner.table = (char **)malloc(sizeof(char *) * (ls->obj.dir_total + 1));
+	ls->tmp = ls->obj.dirs;
+	ls->x = ls->obj.dir_total;
+	while (--ls->x >= 0)
 	{
-		ft_printf("%s\n", "stack found");
-		ac--;
-		av += 1;
-
-		tmp = *stack;
-		while (tmp)
-		{
-			ft_printf("%s\n", tmp->dir_name);
-			ret_dir(tmp->dir_name);
-			tmp = tmp->next;
-			*stack = tmp;
-		}
+		ls->inner.table[ls->x] = ft_strdup(ls->tmp->name);
+		ls->inner.merger = s_stk_push(&ls->inner.merger, ls->tmp->name, \
+			ls->tmp->name);
+		ls->tmp = ls->tmp->next;
 	}
+	sort_by_option(&ls->obj, opt);
+	ls->x = 0;
+	while (ls->x < ls->obj.dir_total)
+	{
+		listdir(opt, ls->inner.table[ls->x]);
+		ft_strdel(&(ls->inner.table[ls->x]));
+		ls->x++;
+	}
+}
+
+void	listdir(t_opt *opt, char *name)
+{
+	t_lsdir		ls;
+	static int	flag;
+
+	ls_init(&ls, &flag, name, opt);
+	if (opt->f_recurs)
+		fill_recursive(&ls, opt);
+	clean_up(&ls.obj, &ls.inner);
 }
 
 int		main(int ac, char **av)
 {
-	t_ls	ls;
+	t_stack	*tmp;
 	t_opt	opt;
-	t_stack	*stack;
+	char	*str;
+	int		i;
 
-	stack = NULL;
-	init_ls(&ls, ac);
+	main_init(&i, &str, &tmp);
 	init_options(&opt);
-
 	verify_options(ac, av);
 	set_options(&opt, ac, av);
-	
-	verify_arguments(av, ac);
-	set_arguments(&ls, &opt, av, ac);
-	
-	print_ls(&ls.stack, &opt, av, ac);
-
-	// while (1)
-	// {
-	// 	dump to stdout
-	// 	check lookup/check R flag
-	// 	output_lookup(*(&(ls).lookup));
-	// }
-
-	ls_free_all(&ls);
-	// if (DEBUG + 1)
-	// 	system("leaks ft_ls");
+	tmp = verify_arguments(av, ac, &opt);
+	if ((ac == 1 || (ac == 2 && opt.set)) || ((opt.done == 0) && !tmp))
+		listdir(&opt, ".");
+	else if (ac >= 2)
+	{
+		if (opt.set)
+			i++;
+		while (is_option(av[i]))
+			i++;
+		while ((str = stack_pop(&tmp)))
+		{
+			listdir(&opt, str);
+			ft_strdel(&str);
+		}
+	}
 	return (0);
 }
