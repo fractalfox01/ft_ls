@@ -6,11 +6,20 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 19:26:01 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/03 19:38:16 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/06 12:20:02 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_ls.h"
+
+void	group_and_passwd_helper(int id, t_ls_info *info)
+{
+	char	*tmp;
+
+	tmp = ft_itoa(id);
+	ft_memcpy(info->owner, tmp, ft_strlen(tmp));
+	ft_strdel(&tmp);
+}
 
 void	set_group_and_password(t_ls_info *info, char *name)
 {
@@ -25,8 +34,12 @@ void	set_group_and_password(t_ls_info *info, char *name)
 	gr = getgrgid(st.st_gid);
 	if (pw)
 		ft_memcpy(info->owner, pw->pw_name, ft_strlen(pw->pw_name));
+	else
+		group_and_passwd_helper(st.st_uid, info);
 	if (gr)
 		ft_memcpy(info->group, gr->gr_name, ft_strlen(gr->gr_name));
+	else
+		group_and_passwd_helper(st.st_gid, info);
 }
 
 void	get_attr(t_ls_info *info, char *name)
@@ -53,14 +66,28 @@ void	get_attr(t_ls_info *info, char *name)
 ** and compare it against the passed in year.
 */
 
-int		get_current_year(char *name)
+int		get_current_year(char *name, t_opt *opt)
 {
 	struct stat	st;
 	time_t		teatime;
 
 	lstat(name, &st);
 	teatime = time(NULL);
-	if (st.st_mtimespec.tv_sec >= (teatime - 15770000))
-		return (1);
+	if (opt->f_ctime)
+	{
+		if (st.st_ctimespec.tv_sec >= (teatime - (15763200)))
+		{
+			if (st.st_ctimespec.tv_sec < (teatime))
+				return (1);
+		}
+	}
+	else
+	{
+		if (st.st_mtimespec.tv_sec >= (teatime - (15763200)))
+		{
+			if (st.st_mtimespec.tv_sec < (teatime))
+				return (1);
+		}
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 15:58:07 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/04 15:42:58 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/05 11:24:06 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static int		is_good_option(char *str)
 	while (str[i] != '\0')
 	{
 		if (str[i] == 'a' || str[i] == 't' || str[i] == 'l' \
-			|| str[i] == 'r' || str[i] == 'R' || str[i] == 'c')
+			|| str[i] == 'r' || str[i] == 'R' || str[i] == 'c' \
+				|| str[i] == 'A')
 			i++;
 		else
 		{

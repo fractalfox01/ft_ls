@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 19:54:40 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/04 15:19:53 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/06 11:54:24 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	free_obj(t_obj *obj)
 		free(obj->table);
 }
 
-void	ls_pad_init(t_ls_pad *pad, int *i)
+void	ls_pad_init(t_ls_pad *pad)
 {
 	pad->name_pad = 0;
 	pad->bytes_pad = 0;
@@ -62,5 +62,5 @@ void	ls_pad_init(t_ls_pad *pad, int *i)
 	pad->major_pad = 0;
 	pad->minor_pad = 0;
 	pad->owner_pad = 0;
-	i[0] = 0;
+	pad->i = 0;
 }

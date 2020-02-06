@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 19:54:22 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/03 19:54:24 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/05 15:26:07 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_options(t_opt *opt)
 	opt->start = 0;
 	opt->flag = 0;
 	opt->f_all = 0;
+	opt->f_cap_a = 0;
 	opt->f_long = 0;
 	opt->f_recurs = 0;
 	opt->f_reverse = 0;
@@ -65,7 +66,7 @@ void	info_null(t_ls_info *info)
 	ft_bzero(info->symbolic, 1024);
 }
 
-int		init_info(t_ls_info *info, char *name)
+int		init_info(t_ls_info *info, char *name, t_opt *opt)
 {
 	struct stat		st;
 
@@ -74,12 +75,12 @@ int		init_info(t_ls_info *info, char *name)
 	{
 		ft_memcpy(info->name, name, ft_strlen(name));
 		set_major_minor(info, name);
-		set_time(info, name);
+		set_time(info, name, opt);
 		set_type(info, name);
 		get_attr(info, name);
 		set_permissions(info, name);
 		set_group_and_password(info, name);
-		set_month_and_time(info, name);
+		set_month_and_time(info, name, opt);
 		info->num_of_links = st.st_nlink;
 		info->num_of_bytes = st.st_size;
 		return (1);

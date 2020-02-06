@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/31 10:37:04 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/04 16:51:04 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/06 12:11:54 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ls_precheck(t_obj *obj, char *name, t_opt *opt, int *flag)
 {
 	t_ls_pad	pad;
 
-	get_padding(&pad, obj, name);
+	get_padding(&pad, obj, name, opt);
 	if (!(obj->dir = opendir(name)))
 	{
 		if (opt->flag || flag[0])

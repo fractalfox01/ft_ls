@@ -7,7 +7,7 @@ SRC := $(addsuffix .c, src/verify_options src/set_options src/init_utils1 src/in
 	src/ls_stack_utils src/sort_utils1 src/sort_utils2 src/time_sort_forward src/time_sort_reverse \
 	src/sort_stack_utils src/print_utils1 src/print_utils2 src/ls_get_info1 src/ls_get_info2 src/ls_get_info3 \
 	src/verify_arg_helpers src/init_utils3 src/ls_padding_utils1 src/ls_padding_utils2 \
-	src/time_sort_utils1 src/time_sort_utils2)
+	src/time_sort_utils1 src/time_sort_utils2 src/ls_free)
 
 INC := $(addsuffix .h, includes/ft_ls includes/libft)
 

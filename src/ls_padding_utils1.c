@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 11:41:28 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/04 12:03:54 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/06 11:43:37 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,16 +52,16 @@ void	ls_set_pad(int itab[7], t_ls_pad *pad)
 		pad->name_pad = itab[6];
 }
 
-void	ls_do_pad(char *name, t_obj *obj, t_ls_pad *pad, int i)
+void	ls_do_pad(char *name, t_obj *obj, t_ls_pad *pad, t_opt *opt)
 {
 	char		*tmp;
 	int			itab[7];
 	t_ls_info	info;
 	struct stat	st;
 
-	tmp = join_path(name, obj->table[i]);
+	tmp = join_path(name, obj->table[pad->i]);
 	lstat(tmp, &st);
-	init_info(&info, tmp);
+	init_info(&info, tmp, opt);
 	ft_strdel(&tmp);
 	ls_itab_init(itab, &info);
 	ls_set_pad(itab, pad);

@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 15:12:14 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/04 15:15:49 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/05 22:43:46 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,9 @@ void	s_merge_ctime_reverse(t_obj *ls, int l, int m, int r)
 
 	tab = ls->table;
 	ms_init(&ms, (m - l + 1), (r - m));
-	copy_tab(&ms, l, m, tab);
+	readin_table(&ms, tab, l, m);
 	while (ms.i < ms.n1 && ms.j < ms.n2)
-		ls_sort_it(&ms, tab);
-	while (ms.i < ms.n1)
-	{
-		ft_strdel(&tab[ms.k]);
-		tab[ms.k++] = ft_strdup(ms.left[ms.i++]);
-	}
-	while (ms.j < ms.n2)
-	{
-		ft_strdel(&tab[ms.k]);
-		tab[ms.k++] = ft_strdup(ms.right[ms.j++]);
-	}
+		sort_by_ctime_reverse(ls, &ms, tab);
+	read_remaing(&ms, tab);
 	free_ms(&ms);
 }

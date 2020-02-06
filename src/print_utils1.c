@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 15:21:13 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/04 16:12:40 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/05 16:27:05 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	print_single(char *path2, t_opt *opt, char *name, t_ls_pad *pad)
 {
 	t_ls_info	info;
 
-	if (init_info(&info, path2) && pad)
+	if (init_info(&info, path2, opt) && pad)
 	{
 		if (opt->f_long)
 			print_long_format(&info, pad);
@@ -67,7 +67,7 @@ void	print_stack(t_obj *obj, t_opt *opt, char *name)
 
 	obj->dir_total = 0;
 	sort_by_option(obj, opt);
-	get_padding(&pad, obj, name);
+	get_padding(&pad, obj, name, opt);
 	obj->x = 0;
 	while (obj->x < obj->sort_total)
 	{
@@ -104,7 +104,7 @@ void	save_and_print(t_opt *opt, t_obj *obj, char *name)
 				count++;
 			total += save_all(opt, obj, name);
 		}
-		if (opt->f_long && (count > 0 || opt->f_all))
+		if (opt->f_long && (count > 0 || (opt->f_all)))
 			print_total(total);
 		closedir(obj->dir);
 	}

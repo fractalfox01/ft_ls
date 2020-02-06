@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 15:11:51 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/04 15:12:00 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/05 14:35:39 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	s_merge_ctime_forward(t_obj *ls, int l, int m, int r)
 	ms_init(&ms, (m - l + 1), (r - m));
 	readin_table(&ms, tab, l, m);
 	while (ms.i < ms.n1 && ms.j < ms.n2)
-		sort_by_character(&ms, tab);
+		sort_by_ctime_forward(ls, &ms, tab);
 	read_remaing(&ms, tab);
 	free_ms(&ms);
 }

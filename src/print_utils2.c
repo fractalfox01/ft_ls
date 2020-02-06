@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 15:21:08 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/04 16:13:35 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/06 13:55:44 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,14 @@ void	print_ls_minor_major(t_ls_info *info, t_ls_pad *pad)
 		print_ls_pad((pad->major_pad - (int)(ft_strlen(info->major))));
 		ft_putstr(info->major);
 		ft_putchar(',');
-		print_ls_pad((pad->minor_pad - (int)(ft_strlen(info->minor))) + 1);
+		print_ls_pad((pad->minor_pad - (int)(ft_strlen(info->minor))));
 		ft_putstr(info->minor);
 	}
 	else
 	{
 		if (pad->major_pad > 0)
 		{
-			print_ls_pad(pad->major_pad);
-			print_ls_pad(pad->minor_pad + 1);
+			print_ls_pad(pad->major_pad + 1);
 		}
 		print_ls_pad(pad->bytes_pad - longlen(info->num_of_bytes) - 1);
 		ft_putnbr(info->num_of_bytes);

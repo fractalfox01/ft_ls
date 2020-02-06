@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 20:28:33 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/04 15:52:43 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/06 14:01:34 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct		s_ls_pad
 	int				minor_pad;
 	int				bytes_pad;
 	int				name_pad;
+	int				i;
 }					t_ls_pad;
 
 typedef	struct		s_ls_d
@@ -170,6 +171,7 @@ typedef struct		s_opt
 	int				flag;
 	int				set;
 	int				f_all;
+	int				f_cap_a;
 	int				f_recurs;
 	int				f_time;
 	int				f_reverse;
@@ -264,12 +266,12 @@ long				ls_if_hidden(t_obj *obj, t_opt *opt);
 char				*get_padded(int size);
 int					longlen(long num);
 void				ls_set_pad(int itab[7], t_ls_pad *pad);
-void				ls_do_pad(char *name, t_obj *obj, t_ls_pad *pad, int i);
-void				get_padding(t_ls_pad *pad, t_obj *obj, char *name);
+void				ls_do_pad(char *name, t_obj *obj, t_ls_pad *pad, t_opt *opt);
+void				get_padding(t_ls_pad *pad, t_obj *obj, char *name, t_opt *opt);
 void				ls_do_mini_pad(char *name, t_mini_obj *obj, t_ls_pad \
-						*pad, int i);
+						*pad, t_opt *opt);
 void				get_padding_mini(t_ls_pad *pad, t_mini_obj *obj, char \
-						*name);
+						*name, t_opt *opt);
 
 /*
 ** Prototypes for ls_get_info# functions
@@ -277,10 +279,10 @@ void				get_padding_mini(t_ls_pad *pad, t_mini_obj *obj, char \
 
 void				set_group_and_password(t_ls_info *info, char *name);
 void				get_attr(t_ls_info *info, char *name);
-int					get_current_year(char *name);
-void				set_time(t_ls_info *info, char *name);
-int					month_and_time_helper(char *name, char ***tab, char **date);
-void				set_month_and_time(t_ls_info *info, char *name);
+int					get_current_year(char *name, t_opt *opt);
+void				set_time(t_ls_info *info, char *name, t_opt *opt);
+int					month_and_time_helper(char *name, char ***tab, char **date, t_opt *opt);
+void				set_month_and_time(t_ls_info *info, char *name, t_opt *opt);
 long				get_major(int x);
 long				get_minor(int x);
 void				set_type(t_ls_info *info, char *name);
@@ -295,14 +297,14 @@ void				ls_itab_init(int itab[7], t_ls_info *info);
 void				free_info(t_ls_info *info);
 long				save_all(t_opt *opt, t_obj *obj, char *name);
 void				save_table(t_obj *obj);
-void				ls_pad_init(t_ls_pad *pad, int *i);
+void				ls_pad_init(t_ls_pad *pad);
 void				free_obj(t_obj *obj);
 void				clean_up(t_obj *p1, t_obj *p2);
 void				ls_init(t_lsdir *ls, int *flag, char *name, t_opt *opt);
 void				main_init(int *i, char **str, t_stack **tmp);
 void				init_ls(t_ls *ls, int total);
 void				init_options(t_opt *opt);
-int					init_info(t_ls_info *info, char *name);
+int					init_info(t_ls_info *info, char *name, t_opt *opt);
 void				init_obj(t_obj *obj);
 
 /*

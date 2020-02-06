@@ -6,7 +6,7 @@
 /*   By: tvandivi <tvandivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 19:39:58 by tvandivi          #+#    #+#             */
-/*   Updated: 2020/02/04 15:42:43 by tvandivi         ###   ########.fr       */
+/*   Updated: 2020/02/05 15:17:46 by tvandivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void		valid_file(t_mini_obj *obj, t_opt *opt)
 	}
 	obj->table[obj->i] = NULL;
 	sort_by_option_mini(obj, opt);
-	get_padding_mini(&pad, obj, "");
+	get_padding_mini(&pad, obj, "", opt);
 	obj->i = -1;
 	while (++obj->i < obj->sort_total)
 	{
