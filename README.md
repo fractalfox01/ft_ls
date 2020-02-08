@@ -24,10 +24,37 @@ __R flag:__ Recursivley interate through all subdirectories
 
 The implementation is not allowed to segfault or fail for any reason.
 The program cannot have any leaks.
-The format of the source code must follow strict format guidelines employed by 42
+The format of the source code must follow strict format guidelines employed by 42.
 This is the sole reason for all of the funky functions and the spacing of each program.
 This task is carried out 'after' writting readable code.
+
+Along with the other requirments we are restricted by system functions that are available to us.
+The allowed functions for this project are:
+
+__write__, __opendir__, __readdir__, __closedir__, __stat__,
+
+__lstat__, __getpwuid__, __getgrgid__, __listxattr__, __getxattr__
+
+__time__, __ctime__, __readlink__, __malloc__, __free__,
+
+__perror__, __strerror__, __exit__
 </p>
+
+<p>Plus, anything we've created for our libft and/or printf projects/implementations.
+
+For this project i've refrained from including my printf implementation due to the large amount of added
+work each call represents and because of the time sensitivity of the program during larger recursive calls it must handle.
+
+I've chosen to implement merge sort for all sorting (lexographical and time).
+
+The program uses a few stacks for storing output data but sorts using a 2d character array.
+
+The time complexity of merge sort is O(NLogN)
+and the lookup of each sorted output is O(N)
+
+O(n) + O(n log(n)) = O(n log(n)) ...Sound about right??
+
+Output is not buffered and is noticeably slower during large recursive calls.
 
 ## Program Features
 
@@ -39,5 +66,5 @@ __c flag:__ when used with the (t flag) sort time by last (file change).
 When used with the (l flag) sort by creation time and output modification time.
 when used with the (l flag) and (t flag) sort by and output creation time.
 
-__i flag:__ output the inode of each file/directory
+__i flag:__ include the inode of each file/directory with output
 </p>
