@@ -72,6 +72,7 @@ __i flag:__ include the inode of each file/directory with output
 ## Using This Program:
 
 __*requires git*__
+
 __*headers and src/ls_get_info3.c modified to run on https://repl.it*__
 
 <p>From a command line; clone the repository.</p>
