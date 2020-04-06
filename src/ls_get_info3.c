@@ -50,6 +50,18 @@ void	get_attr(t_ls_info *info, char *name)
 	tmp = NULL;
 	ft_bzero(namebuf, 255);
 	ft_bzero(info->attr, 2);
+#ifdef _POSIX_SOURCE
+  	if (info->symbolic[0])
+	{
+		tmp = join_path("/", info->symbolic);
+		if ((listxattr(name, namebuf, 255)) > 0)
+			ft_memcpy(info->attr, "@", 1);
+		ft_strdel(&tmp);
+	}
+	else if ((listxattr(name, namebuf, 255)) > 0)
+		ft_memcpy(info->attr, "@", 1);
+#endif
+#ifndef _POSIX_SOURCE
 	if (info->symbolic[0])
 	{
 		tmp = join_path("/", info->symbolic);
@@ -59,6 +71,7 @@ void	get_attr(t_ls_info *info, char *name)
 	}
 	else if ((listxattr(name, namebuf, 255, XATTR_SHOWCOMPRESSION)) > 0)
 		ft_memcpy(info->attr, "@", 1);
+#endif
 }
 
 /*
