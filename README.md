@@ -69,7 +69,7 @@ when used with the (l flag) and (t flag) sort by and output creation time.
 __i flag:__ include the inode of each file/directory with output
 </p>
 
-## Using This Program:
+## Installing && Using This Program:
 
 __*requires git*__
 
@@ -78,4 +78,20 @@ __*headers and src/ls_get_info3.c modified to run on https://repl.it*__
 <p>From a command line; clone the repository.</p>
 <pre>$> git clone https://github.com/fractalfox01/ft_ls.git
 $> cd ft_ls
-$> make</pre>
+$> make
+$> ./ft_ls -al
+total 696
+drwxr-xr-x  1 runner  runner     154 Apr  6 00:42 .
+drwxr-xr-x  1 runner  runner    4096 Apr  5 23:58 ..
+drwxr-xr-x  1 runner  runner     168 Apr  5 23:58 .git
+-rw-r--r--  1 runner  runner      27 Apr  5 23:58 .replit
+-rw-r--r--  1 runner  runner    2615 Apr  5 23:58 README.md
+-rw-r--r--  1 runner  runner      11 Apr  5 23:58 author
+-rw-r--r--  1 runner  runner    1820 Apr  5 23:58 color_table.txt
+-rwxr-xr-x  1 runner  runner  147256 Apr  6 00:42 ft_ls
+drwxr-xr-x  1 runner  runner      28 Apr  6 00:39 includes
+drwxr-xr-x  1 runner  runner      58 Apr  6 00:42 libft
+-rw-r--r--  1 runner  runner  182102 Apr  6 00:42 libft.a
+-rw-r--r--  1 runner  runner    1192 Apr  5 23:58 makefile
+drwxr-xr-x  1 runner  runner     794 Apr  6 00:42 srcft_ls
+</pre>
