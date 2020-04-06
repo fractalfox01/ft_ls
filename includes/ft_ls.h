@@ -31,6 +31,20 @@
 # define OPTION '-'
 # define DEBUG	0
 
+# define st_atime		     st_atim.tv_sec
+# define st_mtime		     st_mtim.tv_sec
+# define st_ctime		     st_ctim.tv_sec
+# ifdef _POSIX_SOURCE
+#  define st_birthtime	     st_birthtim.tv_sec
+# endif
+
+# ifdef _POSIX_SOURCE
+#  define st_atimespec	     st_atim
+#  define st_mtimespec	     st_mtim
+#  define st_ctimespec	     st_ctim
+#  define st_birthtimespec	     st_birthtim
+# endif
+
 /*
 ** s_ls_obj and s_stack are used to store directories of the
 ** associated open directory name with most variables needed
