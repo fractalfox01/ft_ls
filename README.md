@@ -68,3 +68,12 @@ when used with the (l flag) and (t flag) sort by and output creation time.
 
 __i flag:__ include the inode of each file/directory with output
 </p>
+
+## Using This Program:
+
+__*requires git*__
+
+<p>From a command line; clone the repository.</p>
+<pre>$> git clone https://github.com/fractalfox01/ft_ls.git
+$> cd ft_ls
+$> make</pre>
